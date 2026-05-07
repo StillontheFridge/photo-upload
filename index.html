@@ -35,16 +35,13 @@
     text-align: center;
     border-bottom: 4px solid var(--black);
   }
-
   header .header-inner { padding: 16px 24px 13px; }
-
   header h1 {
     font-family: Georgia, serif;
     font-size: 1.15rem;
     font-weight: normal;
     letter-spacing: 0.03em;
   }
-
   header p {
     font-size: 0.7rem;
     opacity: 0.65;
@@ -62,7 +59,6 @@
     font-weight: 500;
     letter-spacing: 0.04em;
   }
-
   .order-banner span {
     font-family: Georgia, serif;
     font-size: 1.1rem;
@@ -85,6 +81,52 @@
     margin-bottom: 10px;
   }
 
+  /* ── Contact fields ── */
+  .contact-section {
+    margin-bottom: 28px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .field-wrap label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .field-wrap .field-sub {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: -2px;
+  }
+
+  .field-wrap input {
+    border: 1.5px solid var(--divider);
+    border-radius: 8px;
+    padding: 11px 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+  .field-wrap input:focus { border-color: var(--lake); }
+  .field-wrap input.required-error { border-color: var(--brick); }
+
+  /* ── Photo cards ── */
   .photos-list {
     display: flex;
     flex-direction: column;
@@ -108,14 +150,12 @@
     background: var(--lake);
     border-bottom: 3px solid var(--black);
   }
-
   .photo-number {
     font-family: Georgia, serif;
     font-size: 0.88rem;
     color: var(--black);
     font-weight: bold;
   }
-
   .remove-btn {
     background: none;
     border: none;
@@ -127,8 +167,7 @@
   }
   .remove-btn:active { color: var(--brick); }
 
-  /* ── Fixed-frame cropper ──
-     The square frame is fixed. The photo pans + zooms inside it. */
+  /* ── Fixed-frame cropper ── */
   .crop-wrapper {
     position: relative;
     width: 100%;
@@ -140,7 +179,6 @@
     user-select: none;
   }
   .crop-wrapper:active { cursor: grabbing; }
-
   .crop-img {
     position: absolute;
     pointer-events: none;
@@ -148,13 +186,11 @@
     -webkit-user-drag: none;
     display: block;
   }
-
   .crop-frame {
     position: absolute;
     inset: 0;
     pointer-events: none;
   }
-
   .corner {
     position: absolute;
     width: 22px;
@@ -166,7 +202,6 @@
   .corner.tr { top: 8px; right: 8px; border-width: 3px 3px 0 0; }
   .corner.bl { bottom: 8px; left: 8px; border-width: 0 0 3px 3px; }
   .corner.br { bottom: 8px; right: 8px; border-width: 0 3px 3px 0; }
-
   .crop-hint {
     position: absolute;
     bottom: 10px;
@@ -204,7 +239,6 @@
     padding: 16px;
     gap: 10px;
   }
-
   .cropped-preview img {
     width: 130px;
     height: 130px;
@@ -212,7 +246,6 @@
     border-radius: 8px;
     border: 3px solid var(--lake);
   }
-
   .recrop-btn {
     background: none;
     border: 1.5px solid var(--black);
@@ -234,20 +267,17 @@
     border-top: 1px solid var(--divider);
     gap: 12px;
   }
-
   .qty-label {
     font-size: 0.8rem;
     color: var(--text-muted);
     flex: 1;
   }
-
   .qty-controls {
     display: flex;
     align-items: center;
     gap: 14px;
     flex-shrink: 0;
   }
-
   .qty-btn {
     width: 34px;
     height: 34px;
@@ -264,7 +294,6 @@
     -webkit-tap-highlight-color: transparent;
   }
   .qty-btn:active { background: var(--black); color: white; }
-
   .qty-value {
     font-family: Georgia, serif;
     font-size: 1.35rem;
@@ -272,6 +301,7 @@
     text-align: center;
   }
 
+  /* ── Add photo ── */
   .add-photo-btn {
     width: 100%;
     border: 2px dashed var(--lake-dark);
@@ -295,6 +325,7 @@
 
   #file-input { display: none; }
 
+  /* ── Summary ── */
   .summary-box {
     background: var(--black);
     color: var(--white);
@@ -309,13 +340,53 @@
   .summary-box .s-label { font-size: 0.72rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.08em; }
   .summary-box .s-value { font-family: Georgia, serif; font-size: 1.5rem; color: var(--white); }
 
+  /* ── Terms ── */
+  .terms-wrap {
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    border: 1.5px solid var(--divider);
+  }
+
+  .terms-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .terms-check input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    accent-color: var(--black);
+    cursor: pointer;
+  }
+
+  .terms-text {
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  .terms-text strong { color: var(--black); }
+
+  .terms-error {
+    color: var(--brick);
+    font-size: 0.75rem;
+    margin-top: 8px;
+    display: none;
+  }
+
+  /* ── Submit ── */
   .submit-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
   }
-
   .submit-btn {
     width: 100%;
     background: var(--brick);
@@ -332,13 +403,13 @@
   }
   .submit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .submit-btn:not(:disabled):active { background: var(--brick-dark); }
-
   .submit-note {
     font-size: 0.75rem;
     color: var(--text-muted);
     text-align: center;
   }
 
+  /* ── Error ── */
   .error-msg {
     background: #fdecea;
     border: 1px solid var(--brick);
@@ -350,14 +421,13 @@
     display: none;
   }
 
-  /* ── Success screen ── */
+  /* ── Success ── */
   #success-screen {
     display: none;
     padding: 32px 16px 60px;
     max-width: 480px;
     margin: 0 auto;
   }
-
   .success-top {
     background: var(--lake);
     border-radius: 14px;
@@ -366,9 +436,7 @@
     border: 3px solid var(--black);
     margin-bottom: 20px;
   }
-
   .success-icon { font-size: 2.8rem; margin-bottom: 10px; }
-
   .success-label {
     font-size: 0.7rem;
     text-transform: uppercase;
@@ -377,7 +445,6 @@
     opacity: 0.6;
     margin-bottom: 2px;
   }
-
   .success-order {
     font-family: Georgia, serif;
     font-size: 3.2rem;
@@ -385,13 +452,11 @@
     line-height: 1;
     margin-bottom: 6px;
   }
-
   .success-tagline {
     font-size: 0.82rem;
     color: var(--black);
     opacity: 0.65;
   }
-
   .success-message {
     background: var(--black);
     color: var(--white);
@@ -402,7 +467,6 @@
     margin-bottom: 16px;
     border-left: 5px solid var(--lake);
   }
-
   .success-detail {
     border: 1.5px solid var(--divider);
     border-radius: 10px;
@@ -413,7 +477,7 @@
   }
   .success-detail strong { color: var(--black); }
 
-  /* ── Loading overlay ── */
+  /* ── Loading ── */
   #loading-overlay {
     display: none;
     position: fixed;
@@ -425,7 +489,6 @@
     justify-content: center;
     gap: 16px;
   }
-
   .spinner {
     width: 46px;
     height: 46px;
@@ -434,9 +497,7 @@
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
-
   @keyframes spin { to { transform: rotate(360deg); } }
-
   #loading-overlay p {
     font-family: Georgia, serif;
     font-size: 1rem;
@@ -459,8 +520,33 @@
 
 <main id="main-screen">
   <br>
-  <div class="section-label">Your Photos</div>
 
+  <!-- Contact Info -->
+  <div class="contact-section">
+    <div class="section-label">Your Info</div>
+    <div class="field-group">
+
+      <div class="field-wrap">
+        <label for="field-name">Name <span style="color:var(--brick)">*</span></label>
+        <input type="text" id="field-name" placeholder="First and last name" autocomplete="name">
+      </div>
+
+      <div class="field-wrap">
+        <label for="field-phone">Phone Number <span style="color:var(--brick)">*</span></label>
+        <input type="tel" id="field-phone" placeholder="(312) 555-0100" autocomplete="tel">
+      </div>
+
+      <div class="field-wrap">
+        <label for="field-email">Email <span style="font-weight:400; color:var(--text-muted)">(optional)</span></label>
+        <span class="field-sub">Join our list and be the first to know about upcoming markets.</span>
+        <input type="email" id="field-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Photos -->
+  <div class="section-label">Your Photos</div>
   <div class="photos-list" id="photos-list"></div>
 
   <button class="add-photo-btn" id="add-photo-btn">
@@ -471,8 +557,7 @@
 
   <input type="file" id="file-input" accept="image/*">
 
-  <div class="error-msg" id="error-msg"></div>
-
+  <!-- Summary -->
   <div class="summary-box" id="summary-box" style="display:none">
     <div>
       <div class="s-label">Photos</div>
@@ -483,6 +568,19 @@
       <div class="s-value" id="sum-magnets">0</div>
     </div>
   </div>
+
+  <!-- Terms -->
+  <div class="terms-wrap">
+    <label class="terms-check">
+      <input type="checkbox" id="terms-check">
+      <span class="terms-text">
+        <strong>I confirm</strong> that I have the right to use these photos, that they do not contain inappropriate, explicit, or unlawful content, and that I take full responsibility for the images I am submitting. Still on the Fridge reserves the right to decline any order.
+      </span>
+    </label>
+    <div class="terms-error" id="terms-error">Please confirm the above before submitting.</div>
+  </div>
+
+  <div class="error-msg" id="error-msg"></div>
 
   <div class="submit-wrap">
     <button class="submit-btn" id="submit-btn" disabled>Submit Photos</button>
@@ -497,11 +595,9 @@
     <div class="success-order" id="success-order-number"></div>
     <div class="success-tagline">Show this number when you pick up your magnets</div>
   </div>
-
   <div class="success-message">
     We got your photos and they look wonderful! Please pay at the booth and we'll start hand-making your order right away. Thank you so much — these are going to be great on the fridge. 🧡
   </div>
-
   <div class="success-detail" id="success-detail"></div>
 </div>
 
@@ -525,11 +621,21 @@ const orderNumber = (() => {
 })();
 document.getElementById("order-number-display").textContent = "#" + orderNumber;
 
+// ── Enable submit when at least one confirmed photo ──
+function updateSummary() {
+  const total = photos.length;
+  const confirmed = photos.filter(p => p.croppedDataUrl).length;
+  const magnets = photos.reduce((s, p) => s + p.quantity, 0);
+  document.getElementById("sum-photos").textContent = total;
+  document.getElementById("sum-magnets").textContent = magnets;
+  document.getElementById("summary-box").style.display = total > 0 ? "flex" : "none";
+  document.getElementById("submit-btn").disabled = !(total > 0 && confirmed === total);
+}
+
 // ── Add photo ──
 document.getElementById("add-photo-btn").addEventListener("click", () => {
   document.getElementById("file-input").click();
 });
-
 document.getElementById("file-input").addEventListener("change", (e) => {
   const file = e.target.files[0];
   if (file) addPhoto(file);
@@ -564,7 +670,7 @@ function renderPhotoCard(photo) {
         <div class="corner tl"></div><div class="corner tr"></div>
         <div class="corner bl"></div><div class="corner br"></div>
       </div>
-      <div class="crop-hint">Drag to reposition · Pinch to zoom</div>
+      <div class="crop-hint">Drag to reposition · Pinch or scroll to zoom</div>
     </div>
     <button class="confirm-crop-btn" data-id="${photo.id}">✓ Use This Crop</button>
     <div class="cropped-preview" id="preview-${photo.id}">
@@ -584,120 +690,47 @@ function renderPhotoCard(photo) {
   initCropper(photo);
 }
 
-// ── Cropper: fixed square frame, image pans + zooms inside ──
+// ── Cropper ──
 function initCropper(photo) {
   const wrapper = document.getElementById("cw-" + photo.id);
-  const imgEl = document.getElementById("ci-" + photo.id);
+  const imgEl   = document.getElementById("ci-" + photo.id);
 
   const naturalImg = new Image();
   naturalImg.onload = () => {
     photo._imgEl = naturalImg;
-
-    const frameSize = wrapper.offsetWidth; // square frame px size
+    const frameSize = wrapper.offsetWidth;
     const nw = naturalImg.naturalWidth;
     const nh = naturalImg.naturalHeight;
-
-    // Minimum scale = fill the frame on the shorter side
     const minScale = Math.max(frameSize / nw, frameSize / nh);
     const scale = minScale;
-
     const dispW = nw * scale;
     const dispH = nh * scale;
-
-    // Center image in frame
-    const tx = (frameSize - dispW) / 2;
-    const ty = (frameSize - dispH) / 2;
-
-    photo.cropState = { nw, nh, frameSize, scale, minScale, tx, ty };
+    photo.cropState = {
+      nw, nh, frameSize, scale, minScale,
+      tx: (frameSize - dispW) / 2,
+      ty: (frameSize - dispH) / 2
+    };
     applyTransform(photo, imgEl);
   };
   naturalImg.src = photo.dataUrl;
 
-  // ── Mouse ──
+  // Mouse drag
   let dragging = false, lastX = 0, lastY = 0;
-
   wrapper.addEventListener("mousedown", (e) => {
     if (photo.croppedDataUrl) return;
-    dragging = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
     e.preventDefault();
   });
   window.addEventListener("mousemove", (e) => {
     if (!dragging || !photo.cropState) return;
     photo.cropState.tx += e.clientX - lastX;
     photo.cropState.ty += e.clientY - lastY;
-    lastX = e.clientX;
-    lastY = e.clientY;
+    lastX = e.clientX; lastY = e.clientY;
     applyTransform(photo, imgEl);
   });
   window.addEventListener("mouseup", () => { dragging = false; });
 
-  // ── Touch ──
-  let pinching = false, lastDist = 0, lastMidX = 0, lastMidY = 0;
-  let touchDragging = false, lastTX = 0, lastTY = 0;
-
-  wrapper.addEventListener("touchstart", (e) => {
-    if (photo.croppedDataUrl) return;
-    if (e.touches.length === 1) {
-      touchDragging = true;
-      pinching = false;
-      lastTX = e.touches[0].clientX;
-      lastTY = e.touches[0].clientY;
-    } else if (e.touches.length === 2) {
-      touchDragging = false;
-      pinching = true;
-      lastDist = dist2(e.touches);
-      lastMidX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-      lastMidY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-    }
-    e.preventDefault();
-  }, { passive: false });
-
-  wrapper.addEventListener("touchmove", (e) => {
-    if (!photo.cropState) return;
-    const s = photo.cropState;
-    const rect = wrapper.getBoundingClientRect();
-
-    if (e.touches.length === 1 && touchDragging) {
-      s.tx += e.touches[0].clientX - lastTX;
-      s.ty += e.touches[0].clientY - lastTY;
-      lastTX = e.touches[0].clientX;
-      lastTY = e.touches[0].clientY;
-
-    } else if (e.touches.length === 2 && pinching) {
-      const d = dist2(e.touches);
-      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
-      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
-
-      const zoom = d / lastDist;
-      const newScale = clamp(s.scale * zoom, s.minScale, s.minScale * 6);
-      const actualZoom = newScale / s.scale;
-
-      // Zoom toward pinch midpoint
-      s.tx = midX - actualZoom * (midX - s.tx);
-      s.ty = midY - actualZoom * (midY - s.ty);
-      s.scale = newScale;
-
-      // Pan with midpoint movement
-      s.tx += midX - lastMidX;
-      s.ty += midY - lastMidY;
-
-      lastDist = d;
-      lastMidX = midX;
-      lastMidY = midY;
-    }
-
-    applyTransform(photo, imgEl);
-    e.preventDefault();
-  }, { passive: false });
-
-  wrapper.addEventListener("touchend", (e) => {
-    if (e.touches.length < 2) pinching = false;
-    if (e.touches.length === 0) touchDragging = false;
-  });
-
-  // ── Scroll wheel zoom (desktop) ──
+  // Scroll zoom
   wrapper.addEventListener("wheel", (e) => {
     if (!photo.cropState || photo.croppedDataUrl) return;
     const s = photo.cropState;
@@ -713,13 +746,60 @@ function initCropper(photo) {
     applyTransform(photo, imgEl);
     e.preventDefault();
   }, { passive: false });
+
+  // Touch drag + pinch
+  let pinching = false, lastDist = 0, lastMidX = 0, lastMidY = 0;
+  let touchDragging = false, lastTX = 0, lastTY = 0;
+
+  wrapper.addEventListener("touchstart", (e) => {
+    if (photo.croppedDataUrl) return;
+    if (e.touches.length === 1) {
+      touchDragging = true; pinching = false;
+      lastTX = e.touches[0].clientX; lastTY = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      touchDragging = false; pinching = true;
+      lastDist = dist2(e.touches);
+      lastMidX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      lastMidY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  wrapper.addEventListener("touchmove", (e) => {
+    if (!photo.cropState) return;
+    const s = photo.cropState;
+    const rect = wrapper.getBoundingClientRect();
+    if (e.touches.length === 1 && touchDragging) {
+      s.tx += e.touches[0].clientX - lastTX;
+      s.ty += e.touches[0].clientY - lastTY;
+      lastTX = e.touches[0].clientX; lastTY = e.touches[0].clientY;
+    } else if (e.touches.length === 2 && pinching) {
+      const d = dist2(e.touches);
+      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+      const zoom = d / lastDist;
+      const newScale = clamp(s.scale * zoom, s.minScale, s.minScale * 6);
+      const actualZoom = newScale / s.scale;
+      s.tx = midX - actualZoom * (midX - s.tx);
+      s.ty = midY - actualZoom * (midY - s.ty);
+      s.scale = newScale;
+      s.tx += midX - lastMidX; s.ty += midY - lastMidY;
+      lastDist = d; lastMidX = midX; lastMidY = midY;
+    }
+    applyTransform(photo, imgEl);
+    e.preventDefault();
+  }, { passive: false });
+
+  wrapper.addEventListener("touchend", (e) => {
+    if (e.touches.length < 2) pinching = false;
+    if (e.touches.length === 0) touchDragging = false;
+  });
 }
 
 function applyTransform(photo, imgEl) {
   const s = photo.cropState;
   const dispW = s.nw * s.scale;
   const dispH = s.nh * s.scale;
-  // Clamp: image must fully cover the frame
   s.tx = clamp(s.tx, s.frameSize - dispW, 0);
   s.ty = clamp(s.ty, s.frameSize - dispH, 0);
   imgEl.style.width  = dispW + "px";
@@ -736,24 +816,18 @@ function dist2(touches) {
 
 function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
-// ── Confirm crop: export the visible region ──
+// ── Confirm crop ──
 function confirmCrop(id) {
   const photo = photos.find(p => p.id === id);
   if (!photo || !photo.cropState || !photo._imgEl) return;
   const s = photo.cropState;
-
-  // tx/ty = image top-left in frame coords
-  // scale = display pixels per natural pixel
   const cropXNatural = -s.tx / s.scale;
   const cropYNatural = -s.ty / s.scale;
   const cropSizeNatural = s.frameSize / s.scale;
-
   const canvas = document.createElement("canvas");
-  canvas.width = 1000;
-  canvas.height = 1000;
+  canvas.width = 1000; canvas.height = 1000;
   canvas.getContext("2d").drawImage(photo._imgEl, cropXNatural, cropYNatural, cropSizeNatural, cropSizeNatural, 0, 0, 1000, 1000);
   photo.croppedDataUrl = canvas.toDataURL("image/jpeg", 0.92);
-
   document.getElementById("cw-" + id).style.display = "none";
   document.querySelector(`.confirm-crop-btn[data-id="${id}"]`).style.display = "none";
   document.getElementById("preview-" + id).style.display = "flex";
@@ -794,37 +868,63 @@ document.addEventListener("click", (e) => {
   else if (e.target.classList.contains("qty-btn")) changeQty(id, parseInt(e.target.dataset.dir));
 });
 
-function updateSummary() {
-  const total = photos.length;
-  const confirmed = photos.filter(p => p.croppedDataUrl).length;
-  const magnets = photos.reduce((s, p) => s + p.quantity, 0);
-  document.getElementById("sum-photos").textContent = total;
-  document.getElementById("sum-magnets").textContent = magnets;
-  document.getElementById("summary-box").style.display = total > 0 ? "flex" : "none";
-  document.getElementById("submit-btn").disabled = !(total > 0 && confirmed === total);
-}
-
 // ── Submit ──
 document.getElementById("submit-btn").addEventListener("click", async () => {
   hideError();
+
+  // Validate contact fields
+  const name  = document.getElementById("field-name").value.trim();
+  const phone = document.getElementById("field-phone").value.trim();
+  const email = document.getElementById("field-email").value.trim();
+  let valid = true;
+
+  if (!name) {
+    document.getElementById("field-name").classList.add("required-error");
+    valid = false;
+  } else {
+    document.getElementById("field-name").classList.remove("required-error");
+  }
+  if (!phone) {
+    document.getElementById("field-phone").classList.add("required-error");
+    valid = false;
+  } else {
+    document.getElementById("field-phone").classList.remove("required-error");
+  }
+
+  // Validate terms
+  if (!document.getElementById("terms-check").checked) {
+    document.getElementById("terms-error").style.display = "block";
+    valid = false;
+  } else {
+    document.getElementById("terms-error").style.display = "none";
+  }
+
+  if (!valid) return;
+
   if (APPS_SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE") {
-    showError("Setup needed: the Apps Script URL hasn't been configured yet.");
+    showError("Setup needed: the Apps Script URL has not been configured yet.");
     return;
   }
+
   showLoading(true);
+
   const payload = {
     orderNumber,
     marketDate: todayStr(),
+    name,
+    phone,
+    email,
     photos: photos.map((p, i) => ({
       base64: p.croppedDataUrl,
-      filename: `order-${orderNumber}-photo${i + 1}.jpg`,
+      filename: `photo-${i + 1}_qty${p.quantity}.jpg`,
       quantity: p.quantity
     }))
   };
+
   try {
     const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
     const data = await res.json();
-    if (data.success) showSuccess();
+    if (data.success) showSuccess(name, phone, email);
     else showError("Something went wrong: " + (data.error || "unknown error"));
   } catch {
     showError("Couldn't connect. Please check your wifi and try again, or show this screen to Hil.");
@@ -833,29 +933,29 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
   }
 });
 
-function showSuccess() {
+function showSuccess(name, phone, email) {
   document.getElementById("main-screen").style.display = "none";
   document.getElementById("success-screen").style.display = "block";
   document.getElementById("success-order-number").textContent = "#" + orderNumber;
-  document.getElementById("success-detail").innerHTML =
-    "<strong>Your order:</strong><br>" +
-    photos.map((p, i) => `Photo ${i + 1}: <strong>${p.quantity} magnet${p.quantity !== 1 ? "s" : ""}</strong>`).join("<br>");
+  const lines = [`<strong>Name:</strong> ${name}`, `<strong>Phone:</strong> ${phone}`];
+  if (email) lines.push(`<strong>Email:</strong> ${email}`);
+  lines.push("");
+  photos.forEach((p, i) => {
+    lines.push(`Photo ${i + 1}: <strong>${p.quantity} magnet${p.quantity !== 1 ? "s" : ""}</strong>`);
+  });
+  document.getElementById("success-detail").innerHTML = lines.join("<br>");
 }
 
 function showLoading(on) {
   document.getElementById("loading-overlay").style.display = on ? "flex" : "none";
 }
-
 function showError(msg) {
   const el = document.getElementById("error-msg");
-  el.textContent = msg;
-  el.style.display = "block";
+  el.textContent = msg; el.style.display = "block";
 }
-
 function hideError() {
   document.getElementById("error-msg").style.display = "none";
 }
-
 function todayStr() {
   const n = new Date();
   return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`;
