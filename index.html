@@ -937,6 +937,8 @@ const marketingOptIn = false;;
     }))
   };
 
+  console.log("Payload being sent:", JSON.stringify(payload));
+  
   try {
     const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
     const data = await res.json();
