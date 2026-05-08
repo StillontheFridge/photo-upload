@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Still on the Fridge — Send Your Photo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --white: #FFFFFF;
+    --black: #000000;
+    --lake: #6BBFDC;
+    --lake-dark: #4aa0c0;
+    --brick: #A63828;
+    --brick-dark: #832010;
+    --divider: #e8e8e8;
+    --text: #000000;
+    --text-muted: #555555;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px 0;
+  }
+
+  header {
+    background: var(--lake);
+    color: var(--black);
+    text-align: center;
+    border-bottom: 4px solid var(--black);
+  }
+  header .header-inner { padding: 16px 24px 13px; }
+  header h1 {
+    font-family: Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: normal;
+    letter-spacing: 0.03em;
+  }
+  header p {
+    font-size: 0.7rem;
+    opacity: 0.65;
+    margin-top: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .order-banner {
+    background: var(--black);
+    color: var(--white);
+    text-align: center;
+    padding: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .order-banner span {
+    font-family: Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--lake);
+  }
+
+  main {
+    padding: 20px 16px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--black);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  /* ── Contact fields ── */
+  .contact-section {
+    margin-bottom: 28px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .field-wrap label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .field-wrap .field-sub {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: -2px;
+  }
+
+  .field-wrap input[type="text"],
+  .field-wrap input[type="tel"],
+  .field-wrap input[type="email"] {
+    border: 1.5px solid var(--divider);
+    border-radius: 8px;
+    padding: 11px 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+  .field-wrap input:focus { border-color: var(--lake); }
+  .field-wrap input.required-error { border-color: var(--brick); }
+  .field-wrap input.invalid-email { border-color: var(--brick); }
+
+  .email-error {
+    color: var(--brick);
+    font-size: 0.72rem;
+    margin-top: 4px;
+    display: none;
+  }
+
+  /* Marketing opt-in styling */
+  .marketing-wrap {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid var(--divider);
+  }
+
+  .marketing-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .marketing-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    accent-color: var(--black);
+    cursor: pointer;
+  }
+
+  .marketing-text {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  /* ── Photo cards ── */
+  .photos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .photo-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1.5px solid var(--divider);
+  }
+
+  .photo-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 14px 10px;
+    background: var(--lake);
+    border-bottom: 3px solid var(--black);
+  }
+  .photo-number {
+    font-family: Georgia, serif;
+    font-size: 0.88rem;
+    color: var(--black);
+    font-weight: bold;
+  }
+  .remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(0,0,0,0.35);
+    font-size: 1.1rem;
+    padding: 2px 4px;
+    line-height: 1;
+  }
+  .remove-btn:active { color: var(--brick); }
+
+  /* ── Fixed-frame cropper ── */
+  .crop-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #111;
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+  }
+  .crop-wrapper:active { cursor: grabbing; }
+  .crop-img {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    display: block;
+  }
+  .crop-frame {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .corner {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-color: var(--lake);
+    border-style: solid;
+  }
+  .corner.tl { top: 8px; left: 8px; border-width: 3px 0 0 3px; }
+  .corner.tr { top: 8px; right: 8px; border-width: 3px 3px 0 0; }
+  .corner.bl { bottom: 8px; left: 8px; border-width: 0 0 3px 3px; }
+  .corner.br { bottom: 8px; right: 8px; border-width: 0 3px 3px 0; }
+  .crop-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 0; right: 0;
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+  }
+
+  .confirm-crop-btn {
+    display: block;
+    width: calc(100% - 28px);
+    margin: 12px 14px 14px;
+    background: var(--lake);
+    color: var(--black);
+    border: none;
+    border-radius: 8px;
+    padding: 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .confirm-crop-btn:active { background: var(--lake-dark); color: white; }
+
+  .cropped-preview {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+  }
+  .cropped-preview img {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 3px solid var(--lake);
+  }
+  .recrop-btn {
+    background: none;
+    border: 1.5px solid var(--black);
+    color: var(--black);
+    border-radius: 6px;
+    padding: 5px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .recrop-btn:active { background: var(--black); color: white; }
+
+  .qty-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-top: 1px solid var(--divider);
+    gap: 12px;
+  }
+  .qty-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    flex: 1;
+  }
+  .qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+  .qty-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid var(--black);
+    background: none;
+    color: var(--black);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .qty-btn:active { background: var(--black); color: white; }
+  .qty-value {
+    font-family: Georgia, serif;
+    font-size: 1.35rem;
+    min-width: 24px;
+    text-align: center;
+  }
+
+  .add-photo-btn {
+    width: 100%;
+    border: 2px dashed var(--lake-dark);
+    border-radius: 12px;
+    background: white;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: var(--black);
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 24px;
+  }
+  .add-photo-btn:active { background: #f0f9fd; border-color: var(--lake); }
+  .add-photo-btn .icon { font-size: 1.7rem; }
+  .add-photo-btn .label { font-size: 0.9rem; font-weight: 600; }
+  .add-photo-btn .sub { font-size: 0.72rem; color: var(--text-muted); }
+
+  #file-input { display: none; }
+
+  .summary-box {
+    background: var(--black);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid var(--lake);
+  }
+  .summary-box .s-label { font-size: 0.72rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.08em; }
+  .summary-box .s-value { font-family: Georgia, serif; font-size: 1.5rem; color: var(--white); }
+
+  /* ── Terms ── */
+  .terms-wrap {
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    border: 1.5px solid var(--divider);
+  }
+
+  .terms-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .terms-check input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    accent-color: var(--black);
+    cursor: pointer;
+  }
+
+  .terms-text {
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+  .terms-text strong { color: var(--black); }
+
+  .terms-error {
+    color: var(--brick);
+    font-size: 0.75rem;
+    margin-top: 8px;
+    display: none;
+  }
+
+  .submit-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .submit-btn {
+    width: 100%;
+    background: var(--brick);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-family: Georgia, serif;
+    font-size: 1.05rem;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s;
+  }
+  .submit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .submit-btn:not(:disabled):active { background: var(--brick-dark); }
+  .submit-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .error-msg {
+    background: #fdecea;
+    border: 1px solid var(--brick);
+    color: var(--brick);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+    display: none;
+  }
+
+  /* ── Success ── */
+  #success-screen {
+    display: none;
+    padding: 32px 16px 60px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .success-top {
+    background: var(--lake);
+    border-radius: 14px;
+    padding: 28px 20px 22px;
+    text-align: center;
+    border: 3px solid var(--black);
+    margin-bottom: 20px;
+  }
+  .success-icon { font-size: 2.8rem; margin-bottom: 10px; }
+  .success-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--black);
+    opacity: 0.6;
+    margin-bottom: 2px;
+  }
+  .success-order {
+    font-family: Georgia, serif;
+    font-size: 3.2rem;
+    color: var(--black);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .success-tagline {
+    font-size: 0.82rem;
+    color: var(--black);
+    opacity: 0.65;
+  }
+  .success-message {
+    background: var(--black);
+    color: var(--white);
+    border-radius: 12px;
+    padding: 18px 20px;
+    font-size: 0.9rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+    border-left: 5px solid var(--lake);
+  }
+  .success-detail {
+    border: 1.5px solid var(--divider);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--text-muted);
+  }
+  .success-detail strong { color: var(--black); }
+
+  /* ── Loading ── */
+  #loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.92);
+    z-index: 100;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .spinner {
+    width: 46px;
+    height: 46px;
+    border: 3px solid var(--divider);
+    border-top-color: var(--lake);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading-overlay p {
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    color: var(--black);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>Still on the Fridge</h1>
+    <p>Custom Photo Magnets · Made in Chicago</p>
+  </div>
+</header>
+
+<div class="order-banner">
+  Your order number is <span id="order-number-display">—</span>
+</div>
+
+<main id="main-screen">
+  <br>
+
+  <!-- Contact Info -->
+  <div class="contact-section">
+    <div class="section-label">Your Info</div>
+    <div class="field-group">
+
+      <div class="field-wrap">
+        <label for="field-name">Name <span style="color:var(--brick)">*</span></label>
+        <input type="text" id="field-name" placeholder="First and last name" autocomplete="name">
+      </div>
+
+      <div class="field-wrap">
+        <label for="field-phone">Phone Number <span style="color:var(--brick)">*</span></label>
+        <span class="field-sub">We'll text you when your order is ready.</span>
+        <input type="tel" id="field-phone" placeholder="(312) 555-0100" autocomplete="tel">
+      </div>
+
+      <div class="field-wrap">
+        <label for="field-email">Email <span style="color:var(--brick)">*</span></label>
+        <input type="email" id="field-email" placeholder="you@example.com" autocomplete="email">
+        <div class="email-error" id="email-error">Please enter a valid email address.</div>
+      </div>
+
+      <div class="marketing-wrap">
+        <label class="marketing-check">
+          <input type="checkbox" id="marketing-opt-in">
+          <span class="marketing-text">Keep me in the loop about future updates and events</span>
+        </label>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Photos -->
+  <div class="section-label">Your Photos</div>
+  <div class="photos-list" id="photos-list"></div>
+
+  <button class="add-photo-btn" id="add-photo-btn">
+    <span class="icon">📷</span>
+    <span class="label">Add a Photo</span>
+    <span class="sub">Tap to choose from your camera roll</span>
+  </button>
+
+  <input type="file" id="file-input" accept="image/*">
+
+  <!-- Summary -->
+  <div class="summary-box" id="summary-box" style="display:none">
+    <div>
+      <div class="s-label">Photos</div>
+      <div class="s-value" id="sum-photos">0</div>
+    </div>
+    <div style="text-align:right">
+      <div class="s-label">Total Magnets</div>
+      <div class="s-value" id="sum-magnets">0</div>
+    </div>
+  </div>
+
+  <!-- Terms -->
+  <div class="terms-wrap">
+    <label class="terms-check">
+      <input type="checkbox" id="terms-check">
+      <span class="terms-text">
+        <strong>I own the rights to these photos and confirm they're family-friendly and law-abiding.</strong> Still on the Fridge reserves the right to decline any order.
+      </span>
+    </label>
+    <div class="terms-error" id="terms-error">Please confirm the above before submitting.</div>
+  </div>
+
+  <div class="error-msg" id="error-msg"></div>
+
+  <div class="submit-wrap">
+    <button class="submit-btn" id="submit-btn" disabled>Submit Photos</button>
+    <span class="submit-note">We'll settle up after we've gotten your photos.</span>
+  </div>
+</main>
+
+<div id="success-screen">
+  <div class="success-top">
+    <div class="success-icon">Success!</div>
+    <div class="success-label">Order Number</div>
+    <div class="success-order" id="success-order-number"></div>
+    <div class="success-tagline">Save this screen until you pick up your magnets</div>
+  </div>
+  <div class="success-message">
+    We got your photos! Head over to pay and we'll start hand-making your magnets. Something tells us these are going to stay on the fridge for a long, long time. 🩵 Thank you!
+  </div>
+  <div class="success-detail" id="success-detail"></div>
+</div>
+
+<div id="loading-overlay">
+  <div class="spinner"></div>
+  <p>Sending your photos magically… this takes a moment since we handle each order personally. Almost there!</p>
+</div>
+
+<script>
+// ── Configuration ──
+const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE";
+
+const photos = [];
+let nextPhotoId = 1;
+
+const orderNumber = (() => {
+  const n = new Date();
+  return String(n.getHours()).padStart(2,"0")
+       + String(n.getMinutes()).padStart(2,"0")
+       + String(n.getSeconds()).padStart(2,"0");
+})();
+document.getElementById("order-number-display").textContent = "#" + orderNumber;
+
+// ── Email validation ──
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// ── Enable submit when requirements met ──
+function updateSummary() {
+  const total = photos.length;
+  const confirmed = photos.filter(p => p.croppedDataUrl).length;
+  const magnets = photos.reduce((s, p) => s + p.quantity, 0);
+  document.getElementById("sum-photos").textContent = total;
+  document.getElementById("sum-magnets").textContent = magnets;
+  document.getElementById("summary-box").style.display = total > 0 ? "flex" : "none";
+  document.getElementById("submit-btn").disabled = !(total > 0 && confirmed === total);
+}
+
+// ── Add photo ──
+document.getElementById("add-photo-btn").addEventListener("click", () => {
+  document.getElementById("file-input").click();
+});
+document.getElementById("file-input").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) addPhoto(file);
+  e.target.value = "";
+});
+
+function addPhoto(file) {
+  const id = nextPhotoId++;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const photo = { id, dataUrl: ev.target.result, croppedDataUrl: null, quantity: 1, cropState: null, _imgEl: null };
+    photos.push(photo);
+    renderPhotoCard(photo);
+    updateSummary();
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderPhotoCard(photo) {
+  const list = document.getElementById("photos-list");
+  const card = document.createElement("div");
+  card.className = "photo-card";
+  card.id = "card-" + photo.id;
+  card.innerHTML = `
+    <div class="photo-card-header">
+      <span class="photo-number">Photo ${photo.id}</span>
+      <button class="remove-btn" data-id="${photo.id}">✕</button>
+    </div>
+    <div class="crop-wrapper" id="cw-${photo.id}">
+      <img class="crop-img" id="ci-${photo.id}" src="${photo.dataUrl}" draggable="false" alt="">
+      <div class="crop-frame">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+      </div>
+      <div class="crop-hint">Drag to reposition · Pinch or scroll to zoom</div>
+    </div>
+    <button class="confirm-crop-btn" data-id="${photo.id}">✓ Use This Crop</button>
+    <div class="cropped-preview" id="preview-${photo.id}">
+      <img id="preview-img-${photo.id}" src="" alt="Your cropped photo">
+      <button class="recrop-btn" data-id="${photo.id}">Re-crop</button>
+    </div>
+    <div class="qty-row">
+      <span class="qty-label">How many magnets of this photo?</span>
+      <div class="qty-controls">
+        <button class="qty-btn" data-id="${photo.id}" data-dir="-1">−</button>
+        <span class="qty-value" id="qty-${photo.id}">1</span>
+        <button class="qty-btn" data-id="${photo.id}" data-dir="1">+</button>
+      </div>
+    </div>
+  `;
+  list.appendChild(card);
+  initCropper(photo);
+}
+
+// ── Cropper ──
+function initCropper(photo) {
+  const wrapper = document.getElementById("cw-" + photo.id);
+  const imgEl   = document.getElementById("ci-" + photo.id);
+
+  const naturalImg = new Image();
+  naturalImg.onload = () => {
+    photo._imgEl = naturalImg;
+    const frameSize = wrapper.offsetWidth;
+    const nw = naturalImg.naturalWidth;
+    const nh = naturalImg.naturalHeight;
+    const minScale = Math.max(frameSize / nw, frameSize / nh);
+    const scale = minScale;
+    const dispW = nw * scale;
+    const dispH = nh * scale;
+    photo.cropState = {
+      nw, nh, frameSize, scale, minScale,
+      tx: (frameSize - dispW) / 2,
+      ty: (frameSize - dispH) / 2
+    };
+    applyTransform(photo, imgEl);
+  };
+  naturalImg.src = photo.dataUrl;
+
+  // Mouse drag
+  let dragging = false, lastX = 0, lastY = 0;
+  wrapper.addEventListener("mousedown", (e) => {
+    if (photo.croppedDataUrl) return;
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    e.preventDefault();
+  });
+  window.addEventListener("mousemove", (e) => {
+    if (!dragging || !photo.cropState) return;
+    photo.cropState.tx += e.clientX - lastX;
+    photo.cropState.ty += e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    applyTransform(photo, imgEl);
+  });
+  window.addEventListener("mouseup", () => { dragging = false; });
+
+  // Scroll zoom
+  wrapper.addEventListener("wheel", (e) => {
+    if (!photo.cropState || photo.croppedDataUrl) return;
+    const s = photo.cropState;
+    const rect = wrapper.getBoundingClientRect();
+    const midX = e.clientX - rect.left;
+    const midY = e.clientY - rect.top;
+    const zoom = e.deltaY < 0 ? 1.08 : 0.93;
+    const newScale = clamp(s.scale * zoom, s.minScale, s.minScale * 6);
+    const actualZoom = newScale / s.scale;
+    s.tx = midX - actualZoom * (midX - s.tx);
+    s.ty = midY - actualZoom * (midY - s.ty);
+    s.scale = newScale;
+    applyTransform(photo, imgEl);
+    e.preventDefault();
+  }, { passive: false });
+
+  // Touch drag + pinch
+  let pinching = false, lastDist = 0, lastMidX = 0, lastMidY = 0;
+  let touchDragging = false, lastTX = 0, lastTY = 0;
+
+  wrapper.addEventListener("touchstart", (e) => {
+    if (photo.croppedDataUrl) return;
+    if (e.touches.length === 1) {
+      touchDragging = true; pinching = false;
+      lastTX = e.touches[0].clientX; lastTY = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      touchDragging = false; pinching = true;
+      lastDist = dist2(e.touches);
+      lastMidX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      lastMidY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  wrapper.addEventListener("touchmove", (e) => {
+    if (!photo.cropState) return;
+    const s = photo.cropState;
+    const rect = wrapper.getBoundingClientRect();
+    if (e.touches.length === 1 && touchDragging) {
+      s.tx += e.touches[0].clientX - lastTX;
+      s.ty += e.touches[0].clientY - lastTY;
+      lastTX = e.touches[0].clientX; lastTY = e.touches[0].clientY;
+    } else if (e.touches.length === 2 && pinching) {
+      const d = dist2(e.touches);
+      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+      const zoom = d / lastDist;
+      const newScale = clamp(s.scale * zoom, s.minScale, s.minScale * 6);
+      const actualZoom = newScale / s.scale;
+      s.tx = midX - actualZoom * (midX - s.tx);
+      s.ty = midY - actualZoom * (midY - s.ty);
+      s.scale = newScale;
+      s.tx += midX - lastMidX; s.ty += midY - lastMidY;
+      lastDist = d; lastMidX = midX; lastMidY = midY;
+    }
+    applyTransform(photo, imgEl);
+    e.preventDefault();
+  }, { passive: false });
+
+  wrapper.addEventListener("touchend", (e) => {
+    if (e.touches.length < 2) pinching = false;
+    if (e.touches.length === 0) touchDragging = false;
+  });
+}
+
+function applyTransform(photo, imgEl) {
+  const s = photo.cropState;
+  const dispW = s.nw * s.scale;
+  const dispH = s.nh * s.scale;
+  s.tx = clamp(s.tx, s.frameSize - dispW, 0);
+  s.ty = clamp(s.ty, s.frameSize - dispH, 0);
+  imgEl.style.width  = dispW + "px";
+  imgEl.style.height = dispH + "px";
+  imgEl.style.left   = s.tx + "px";
+  imgEl.style.top    = s.ty + "px";
+}
+
+function dist2(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+// ── Confirm crop ──
+function confirmCrop(id) {
+  const photo = photos.find(p => p.id === id);
+  if (!photo || !photo.cropState || !photo._imgEl) return;
+  const s = photo.cropState;
+  const cropXNatural = -s.tx / s.scale;
+  const cropYNatural = -s.ty / s.scale;
+  const cropSizeNatural = s.frameSize / s.scale;
+  const canvas = document.createElement("canvas");
+  canvas.width = 1000; canvas.height = 1000;
+  canvas.getContext("2d").drawImage(photo._imgEl, cropXNatural, cropYNatural, cropSizeNatural, cropSizeNatural, 0, 0, 1000, 1000);
+  photo.croppedDataUrl = canvas.toDataURL("image/jpeg", 0.92);
+  document.getElementById("cw-" + id).style.display = "none";
+  document.querySelector(`.confirm-crop-btn[data-id="${id}"]`).style.display = "none";
+  document.getElementById("preview-" + id).style.display = "flex";
+  document.getElementById("preview-img-" + id).src = photo.croppedDataUrl;
+  updateSummary();
+}
+
+function recrop(id) {
+  const photo = photos.find(p => p.id === id);
+  if (!photo) return;
+  photo.croppedDataUrl = null;
+  document.getElementById("cw-" + id).style.display = "";
+  document.querySelector(`.confirm-crop-btn[data-id="${id}"]`).style.display = "";
+  document.getElementById("preview-" + id).style.display = "none";
+  updateSummary();
+}
+
+function removePhoto(id) {
+  const idx = photos.findIndex(p => p.id === id);
+  if (idx !== -1) photos.splice(idx, 1);
+  document.getElementById("card-" + id)?.remove();
+  updateSummary();
+}
+
+function changeQty(id, dir) {
+  const photo = photos.find(p => p.id === id);
+  if (!photo) return;
+  photo.quantity = clamp(photo.quantity + dir, 1, 20);
+  document.getElementById("qty-" + id).textContent = photo.quantity;
+  updateSummary();
+}
+
+document.addEventListener("click", (e) => {
+  const id = parseInt(e.target.dataset.id);
+  if (e.target.classList.contains("confirm-crop-btn")) confirmCrop(id);
+  else if (e.target.classList.contains("recrop-btn")) recrop(id);
+  else if (e.target.classList.contains("remove-btn")) removePhoto(id);
+  else if (e.target.classList.contains("qty-btn")) changeQty(id, parseInt(e.target.dataset.dir));
+});
+
+// ── Submit ──
+document.getElementById("submit-btn").addEventListener("click", async () => {
+  hideError();
+
+  // Validate contact fields
+  const name  = document.getElementById("field-name").value.trim();
+  const phone = document.getElementById("field-phone").value.trim();
+  const email = document.getElementById("field-email").value.trim();
+  const marketingOptIn = document.getElementById("marketing-opt-in").checked;
+  let valid = true;
+
+  // Required field validation
+  if (!name) {
+    document.getElementById("field-name").classList.add("required-error");
+    valid = false;
+  } else {
+    document.getElementById("field-name").classList.remove("required-error");
+  }
+  if (!phone) {
+    document.getElementById("field-phone").classList.add("required-error");
+    valid = false;
+  } else {
+    document.getElementById("field-phone").classList.remove("required-error");
+  }
+  if (!email) {
+    document.getElementById("field-email").classList.add("required-error");
+    document.getElementById("email-error").style.display = "none";
+    valid = false;
+  } else if (!isValidEmail(email)) {
+    document.getElementById("field-email").classList.add("invalid-email");
+    document.getElementById("email-error").style.display = "block";
+    valid = false;
+  } else {
+    document.getElementById("field-email").classList.remove("required-error", "invalid-email");
+    document.getElementById("email-error").style.display = "none";
+  }
+
+  // Validate terms
+  if (!document.getElementById("terms-check").checked) {
+    document.getElementById("terms-error").style.display = "block";
+    valid = false;
+  } else {
+    document.getElementById("terms-error").style.display = "none";
+  }
+
+  if (!valid) return;
+
+  if (APPS_SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE") {
+    showError("Setup needed: the Apps Script URL has not been configured yet.");
+    return;
+  }
+
+  showLoading(true);
+
+  const payload = {
+    orderNumber,
+    marketDate: todayStr(),
+    name,
+    phone,
+    email,
+    marketingOptIn,
+    photos: photos.map((p, i) => ({
+      base64: p.croppedDataUrl,
+      filename: `photo-${i + 1}_qty${p.quantity}.jpg`,
+      quantity: p.quantity
+    }))
+  };
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+    const data = await res.json();
+    if (data.success) showSuccess(name, phone, email);
+    else showError("Something went wrong: " + (data.error || "unknown error"));
+  } catch {
+    showError("Couldn't connect. Please check your wifi and try again, or show this screen to Hil.");
+  } finally {
+    showLoading(false);
+  }
+});
+
+function showSuccess(name, phone, email) {
+  document.getElementById("main-screen").style.display = "none";
+  document.getElementById("success-screen").style.display = "block";
+  document.getElementById("success-order-number").textContent = "#" + orderNumber;
+  const lines = [`<strong>Name:</strong> ${name}`, `<strong>Phone:</strong> ${phone}`, `<strong>Email:</strong> ${email}`, ""];
+  photos.forEach((p, i) => {
+    lines.push(`Photo ${i + 1}: <strong>${p.quantity} magnet${p.quantity !== 1 ? "s" : ""}</strong>`);
+  });
+  document.getElementById("success-detail").innerHTML = lines.join("<br>");
+}
+
+function showLoading(on) {
+  document.getElementById("loading-overlay").style.display = on ? "flex" : "none";
+}
+function showError(msg) {
+  const el = document.getElementById("error-msg");
+  el.textContent = msg; el.style.display = "block";
+}
+function hideError() {
+  document.getElementById("error-msg").style.display = "none";
+}
+function todayStr() {
+  const n = new Date();
+  return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`;
+}
+</script>
+</body>
+</html>
