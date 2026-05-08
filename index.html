@@ -111,7 +111,9 @@
     margin-top: -2px;
   }
 
-  .field-wrap input {
+  .field-wrap input[type="text"],
+  .field-wrap input[type="tel"],
+  .field-wrap input[type="email"] {
     border: 1.5px solid var(--divider);
     border-radius: 8px;
     padding: 11px 13px;
@@ -125,6 +127,45 @@
   }
   .field-wrap input:focus { border-color: var(--lake); }
   .field-wrap input.required-error { border-color: var(--brick); }
+  .field-wrap input.invalid-email { border-color: var(--brick); }
+
+  .email-error {
+    color: var(--brick);
+    font-size: 0.72rem;
+    margin-top: 4px;
+    display: none;
+  }
+
+  /* Marketing opt-in styling */
+  .marketing-wrap {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid var(--divider);
+  }
+
+  .marketing-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .marketing-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    accent-color: var(--black);
+    cursor: pointer;
+  }
+
+  .marketing-text {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
 
   /* ── Photo cards ── */
   .photos-list {
@@ -301,7 +342,6 @@
     text-align: center;
   }
 
-  /* ── Add photo ── */
   .add-photo-btn {
     width: 100%;
     border: 2px dashed var(--lake-dark);
@@ -325,7 +365,6 @@
 
   #file-input { display: none; }
 
-  /* ── Summary ── */
   .summary-box {
     background: var(--black);
     color: var(--white);
@@ -370,7 +409,6 @@
     line-height: 1.55;
     color: var(--text-muted);
   }
-
   .terms-text strong { color: var(--black); }
 
   .terms-error {
@@ -380,7 +418,6 @@
     display: none;
   }
 
-  /* ── Submit ── */
   .submit-wrap {
     display: flex;
     flex-direction: column;
@@ -409,7 +446,6 @@
     text-align: center;
   }
 
-  /* ── Error ── */
   .error-msg {
     background: #fdecea;
     border: 1px solid var(--brick);
@@ -538,9 +574,16 @@
       </div>
 
       <div class="field-wrap">
-        <label for="field-email">Email <span style="font-weight:400; color:var(--text-muted)">(optional)</span></label>
-        <span class="field-sub">Join our list to stay in touch.</span>
+        <label for="field-email">Email <span style="color:var(--brick)">*</span></label>
         <input type="email" id="field-email" placeholder="you@example.com" autocomplete="email">
+        <div class="email-error" id="email-error">Please enter a valid email address.</div>
+      </div>
+
+      <div class="marketing-wrap">
+        <label class="marketing-check">
+          <input type="checkbox" id="marketing-opt-in">
+          <span class="marketing-text">Keep me in the loop about future updates and events</span>
+        </label>
       </div>
 
     </div>
@@ -575,7 +618,7 @@
     <label class="terms-check">
       <input type="checkbox" id="terms-check">
       <span class="terms-text">
-        <strong>I confirm</strong> that I own the rights to these photos and that they're family-friendly and law-abiding. Still on the Fridge reserves the right to decline any order.
+        <strong>I own the rights to these photos and confirm they're family-friendly and law-abiding.</strong> Still on the Fridge reserves the right to decline any order.
       </span>
     </label>
     <div class="terms-error" id="terms-error">Please confirm the above before submitting.</div>
@@ -604,12 +647,12 @@
 
 <div id="loading-overlay">
   <div class="spinner"></div>
-  <p>Magically sending your photos..this may take a few extra seconds because we personally receive each order. Sit tight!…</p>
+  <p>Sending your photos magically… this takes a moment since we handle each order personally. Almost there!</p>
 </div>
 
 <script>
 // ── Configuration ──
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3ziCAfOQ6rcxCBU3raJrPmlggi3sk8Dl83DMqf80h2-16VUGGpZUu-YsqDiWCc0I/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCwZ4fapaHxTZTwfHH7qQqcMSXnD0GM43sasA7hXquCvA26AUfr98CGPPxEO5dmKTd/exec";
 
 const photos = [];
 let nextPhotoId = 1;
@@ -622,7 +665,13 @@ const orderNumber = (() => {
 })();
 document.getElementById("order-number-display").textContent = "#" + orderNumber;
 
-// ── Enable submit when at least one confirmed photo ──
+// ── Email validation ──
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// ── Enable submit when requirements met ──
 function updateSummary() {
   const total = photos.length;
   const confirmed = photos.filter(p => p.croppedDataUrl).length;
@@ -877,8 +926,10 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
   const name  = document.getElementById("field-name").value.trim();
   const phone = document.getElementById("field-phone").value.trim();
   const email = document.getElementById("field-email").value.trim();
+  const marketingOptIn = document.getElementById("marketing-opt-in").checked;
   let valid = true;
 
+  // Required field validation
   if (!name) {
     document.getElementById("field-name").classList.add("required-error");
     valid = false;
@@ -890,6 +941,18 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
     valid = false;
   } else {
     document.getElementById("field-phone").classList.remove("required-error");
+  }
+  if (!email) {
+    document.getElementById("field-email").classList.add("required-error");
+    document.getElementById("email-error").style.display = "none";
+    valid = false;
+  } else if (!isValidEmail(email)) {
+    document.getElementById("field-email").classList.add("invalid-email");
+    document.getElementById("email-error").style.display = "block";
+    valid = false;
+  } else {
+    document.getElementById("field-email").classList.remove("required-error", "invalid-email");
+    document.getElementById("email-error").style.display = "none";
   }
 
   // Validate terms
@@ -915,6 +978,7 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
     name,
     phone,
     email,
+    marketingOptIn,
     photos: photos.map((p, i) => ({
       base64: p.croppedDataUrl,
       filename: `photo-${i + 1}_qty${p.quantity}.jpg`,
@@ -938,9 +1002,7 @@ function showSuccess(name, phone, email) {
   document.getElementById("main-screen").style.display = "none";
   document.getElementById("success-screen").style.display = "block";
   document.getElementById("success-order-number").textContent = "#" + orderNumber;
-  const lines = [`<strong>Name:</strong> ${name}`, `<strong>Phone:</strong> ${phone}`];
-  if (email) lines.push(`<strong>Email:</strong> ${email}`);
-  lines.push("");
+  const lines = [`<strong>Name:</strong> ${name}`, `<strong>Phone:</strong> ${phone}`, `<strong>Email:</strong> ${email}`, ""];
   photos.forEach((p, i) => {
     lines.push(`Photo ${i + 1}: <strong>${p.quantity} magnet${p.quantity !== 1 ? "s" : ""}</strong>`);
   });
