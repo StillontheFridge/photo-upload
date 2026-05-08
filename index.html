@@ -884,8 +884,8 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
   const name  = document.getElementById("field-name").value.trim();
   const phone = document.getElementById("field-phone").value.trim();
   const email = document.getElementById("field-email").value.trim();
-  const marketingOptIn = document.getElementById("marketing-opt-in").checked;
-  let valid = true;
+  // const marketingOptIn = document.getElementById("marketing-opt-in").checked;
+const marketingOptIn = false;;
 
   if (!name) {
     document.getElementById("field-name").classList.add("required-error");
